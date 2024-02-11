@@ -10,17 +10,18 @@ const educationRoutes = require('./routes/education');
 const experienceRoutes = require('./routes/experience');
 const projectRoutes = require('./routes/project');
 const skillRoutes = require('./routes/skill');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');  
 require('dotenv').config();
 const app = express();
 
 
 const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 4000;
-const authURL = process.env.AUTHURL
-const clientID = process.env.CLIENT_ID
-const clientSecret = process.env.SECRET 
-const oauth = process.env.OAUTH 
+const githubAuthURL = process.env.AUTHURL;
+const clientID = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
+const oauth = process.env.OAUTH;
+const jwtSecret = process.env.JWT_SECRET;
 
 mongoose.connect('mongodb://localhost/devport', {
     useNewUrlParser: true,
@@ -40,30 +41,33 @@ app.get('/', (req, res) => {
   res.redirect('/docs')
 })
 
-// app.get('/oauth', (req, res) => {
-//   res.redirect(`${authURL}`);
-// })
-
-app.get("/callback/:code", (req, res) => {
-  axios.post(`${oauth}`, {
+app.get("/oauth/callback", (req, res) => {
+  const {code, state} = req.query;
+  const decoded = jwt.verify(state, jwtSecret);
+  
+  if (decoded) {
+    axios.post(`${oauth}`, {
       client_id: `${clientID}`,
       client_secret: `${clientSecret}`,
-      code: req.params.code
-  }, {
+      code: `${code}`,
+    }, {
       headers: {
           Accept: "application/json"
       }
-  }).then((result) => {
+    }).then((result) => {
+      console.log(result)
       res.json({"token": result.data.access_token});
-  }).catch((err) => {
+    }).catch((err) => {
       console.log(err);
-  });
+    });
+  }
 });
 
 app.get("/oauth", (req, res) => {
-  res.redirect('https://github.com/login/oauth/authorize?client_id=829a74c5da72aa7b820c&state=sugar')
+  const state = jwt.sign({}, jwtSecret);
+  const authURL = `${githubAuthURL}?client_id=${clientID}&state=${state}`;
+  res.redirect(authURL);
 })
-
 
 app.get('/generate-cv/:userId', async(req, res) => {
   try{
