@@ -2,27 +2,3 @@ README.md
 /node_modules
 package-lock.json
 .env
-
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-devport-app/node_modules
-devport-app/.pnp
-devport-app/.pnp.js
-
-# testing
-devport-app/coverage
-
-devport-app/package-lock.json
-
-# environment files
-devport-app/.DS_Store
-devport-app/.env
-devport-app/.env.local
-devport-app/.env.development.local
-devport-app/.env.test.local
-devport-app/.env.production.local
-
-devport-app/npm-debug.log*
-devport-app/yarn-debug.log*
-devport-app/yarn-error.log*
