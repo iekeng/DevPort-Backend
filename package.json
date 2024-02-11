@@ -1,0 +1,30 @@
+{
+  "name": "devport",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "author": "Edward Iniko, Isaac Mititi",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "body-parser": "^1.20.2",
+    "chai": "^4.3.10",
+    "chai-http": "^4.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mocha": "^10.2.0",
+    "mongoose": "^7.6.2",
+    "nodemon": "^3.0.3",
+    "supertest": "^6.3.3",
+    "swagger-ui-express": "^5.0.0"
+  }
+}
