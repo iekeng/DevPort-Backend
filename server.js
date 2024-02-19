@@ -24,10 +24,11 @@ const oauth = process.env.OAUTH;
 const jwtSecret = process.env.JWT_SECRET;
 
 mongoose.connect('mongodb://localhost/devport', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use('/users', userRoutes);
@@ -35,7 +36,6 @@ app.use('/education', educationRoutes);
 app.use('/experience', experienceRoutes);
 app.use('/project', projectRoutes);
 app.use('/skill', skillRoutes);
-app.use(cors())
 
 app.get('/', (req, res) => {
   res.redirect('/docs')
@@ -52,7 +52,7 @@ app.get("/oauth/callback", (req, res) => {
       code: `${code}`,
     }, {
       headers: {
-          Accept: "application/json"
+        Accept: "application/json"
       }
     }).then((result) => {
       console.log(result)
@@ -89,4 +89,4 @@ app.listen(port, host, () => {
   console.log(`The server is running on ${host}:${port}`)
 })
 
-module.exports = app;
+module.exports = app; 

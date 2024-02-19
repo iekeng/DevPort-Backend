@@ -9,7 +9,11 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     unique: true,
   },
-  socials:[{
+  summary: {
+    type: String,
+    lowercase: true,
+  },
+  socials:{
     twitter: {
       type: String,
       lowercase: true,
@@ -23,11 +27,26 @@ const userSchema = new mongoose.Schema({
       default: null,
       required: false,
       unique: true,
+    },
+    github: {
+      type: String,
+      lowercase: true,
+      default: null,
+      required: false,
+      unique: true,
     }
-  }],
+  },
   phone: {
-    type: Number,
+    type: String,
     required: true,
+  },
+  avatar_url: {
+    type: String,
+    lowercase: true,
+  },
+  location: {
+    type: String,
+    lowercase: true,
   }
 });
 

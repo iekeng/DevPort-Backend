@@ -18,19 +18,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "_id": {
-                      "type": "string"
-                    },
                     "name": {
                       "type": "string"
                     },
                     "email": {
-                      "type": "string"
-                    },
-                    "phone": {
-                      "type": "number"
-                    },
-                    "user": {
                       "type": "string"
                     },
                     "socials": {
@@ -41,8 +32,20 @@
                         },
                         "linkedin": {
                           "type": "string"
+                        },
+                        "_id": {
+                          "type": "string"
                         }
                       }
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "_id": {
+                      "type": "string"
+                    },
+                    "__v": {
+                      "type": "number"
                     }
                   }
                 }
@@ -82,22 +85,19 @@
                     "email": {
                       "type": "string"
                     },
-                    "phone": {
-                      "type": "number"
-                    },
-                    "user": {
-                      "type": "string"
-                    },
                     "socials": {
                       "type": "object",
                       "properties": {
                         "twitter": {
                           "type": "string"
                         },
-                        "linkedin": {
+                        "linkedIn": {
                           "type": "string"
                         }
                       }
+                    },
+                    "phone": {
+                      "type": "number"
                     }
                   }
                 }
@@ -583,10 +583,30 @@
                   "type": "object",
                   "properties": {
                     "skills": {
-                      "type": "list",
-                      "properties": {
-                        "type": "string"
+                      "type": "object",
+                      "properties":{
+                        "soft": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "technical": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
                       }
+                    },
+                    "user": {
+                      "type": "string"
+                    },
+                    "_id": {
+                      "type": "string"
+                    },
+                    "__v": {
+                      "type": "number"
                     }
                   }
                 }
@@ -621,9 +641,20 @@
                   "type": "object",
                   "properties": {
                     "skills": {
-                      "type": "list",
-                      "properties": {
-                        "type": "string"
+                      "type": "object",
+                      "properties":{
+                        "soft": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "technical": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
                       }
                     },
                     "user": {
