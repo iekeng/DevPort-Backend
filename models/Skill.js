@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 
 const skillSchema = new mongoose.Schema({
-  skills:{soft: [{
+  soft_skills: [{
     type: String,
-  }], technical: [{
+  }], 
+  technical_skills: [{
     type: String,
-  }]},
+  }],
   user: {
     type: mongoose.Schema.Types.ObjectId, ref: 'User',
   },
