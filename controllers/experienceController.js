@@ -40,7 +40,7 @@ exports.getAllExperience = async(req, res) => {
     }
 }
 
-exports.putExperience = async(req, res) => {
+exports.updateExperience = async(req, res) => {
     const {userId, experienceId} = req.params;
     const {organisation, position, startDate, endDate, achievements, responsibilities, user} = req.body;
 

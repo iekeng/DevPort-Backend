@@ -10,10 +10,55 @@ exports.createUser = async (req, res) => {
   }
 };
 
-exports.getUser = async (req, res) => {
+exports.updateUser = async (req, res) => {
+  const userId = req.query.user;
+  const {name, email, summary, socials, phone, avatar_url, location} = req.body
+  const user = {}
+
+  try {
+    const userToBeUpdated = await User.findById(userId)
+    if (!userToBeUpdated){
+      res.status(404).json({error: 'User not found.'})
+    }
+    user.name = name || userToBeUpdated.name;
+    user.email = email || userToBeUpdated.email;
+    user.summary = summary || userToBeUpdated.summary;
+    user.socials = {
+      twitter: socials && socials.twitter ? socials.twitter : userToBeUpdated.socials.twitter,
+      linkedIn: socials && socials.linkedIn ? socials.linkedIn : userToBeUpdated.socials.linkedIn   
+     }
+    user.phone = phone || userToBeUpdated.phone;
+    user.avatar_url = avatar_url || userToBeUpdated.avatar_url;
+    user.location = location || userToBeUpdated.location;
+    user.user = userId
+
+    const updatedUser = await User.findByIdAndUpdate(userId, user, { new: true });
+    res.status(200).json(updatedUser);
+
+} catch(err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+exports.getUserById = async (req, res) => {
+  const userId = req.params.id
+  try {
+    const user = await User.findOne({_id: userId});
+    if (!user) {
+      res.status(404).json({ error: 'User not found.' });
+    }
+  } catch (err) {
+      res.status(400).json({ error: err.message });
+  }
+};
+
+exports.getUserByEmail = async (req, res) => {
     try {
-        const userId = req.params.id
-        const user = await User.findOne({_id: userId});
+        const userId = req.query.emil
+        const user = await User.findOne({email: userEmail});
+        if (!user) {
+          res.status(404).json({ error: 'User not found.' });
+        }
         res.status(200).json(user);
     } catch (err) {
         res.status(400).json({ error: err.message });
