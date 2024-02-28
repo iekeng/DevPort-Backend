@@ -5,13 +5,28 @@ exports.createSkill = async (req, res) => {
         const userId = req.params.userId;
         const skillData = req.body;
         const skill = new Skill(skillData);
-
         skill.user = userId;
 
         await skill.save();
 
         res.status(201).json(skill);
 
+    } catch {
+        res.status(500).json({error: 'An error occured while creating the work skill record'})
+    }
+};
+
+exports.updateSkill = async (req, res) => {
+    const userId = req.params.userId;
+    const {key, array} = req.body; // {key: 'technical_skills', array: [c, python, java]}
+    try {
+            const skillToBeUpdated = await Skill.findOne({user: userId}).exec();
+            // if (!skillToBeUpdated){
+            //     res.status(404).json({error: 'Skills not found'})
+            // }
+            skillToBeUpdated[key] = array
+            await skillToBeUpdated.save();
+            res.status(201).json(skill);
     } catch {
         res.status(500).json({error: 'An error occured while creating the work skill record'})
     }

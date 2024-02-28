@@ -11,26 +11,28 @@ exports.createUser = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  const userId = req.query.user;
-  const {name, email, summary, socials, phone, avatar_url, location} = req.body
-  const user = {}
+  const {userId} = req.params;
+  const {name, email, summary, socials, phone, avatar_url, location} = req.body;
+  const user = {};
 
   try {
-    const userToBeUpdated = await User.findById(userId)
+    const userToBeUpdated = await User.findById(userId);
     if (!userToBeUpdated){
-      res.status(404).json({error: 'User not found.'})
+      res.status(404).json({error: 'User not found'});
     }
     user.name = name || userToBeUpdated.name;
     user.email = email || userToBeUpdated.email;
     user.summary = summary || userToBeUpdated.summary;
     user.socials = {
       twitter: socials && socials.twitter ? socials.twitter : userToBeUpdated.socials.twitter,
-      linkedIn: socials && socials.linkedIn ? socials.linkedIn : userToBeUpdated.socials.linkedIn   
+      linkedIn: socials && socials.linkedIn ? socials.linkedIn : userToBeUpdated.socials.linkedIn,   
+      github: userToBeUpdated.socials.github  
      }
     user.phone = phone || userToBeUpdated.phone;
     user.avatar_url = avatar_url || userToBeUpdated.avatar_url;
     user.location = location || userToBeUpdated.location;
-    user.user = userId
+    user._id = userToBeUpdated._id;
+    user.__v = userToBeUpdated.__v;
 
     const updatedUser = await User.findByIdAndUpdate(userId, user, { new: true });
     res.status(200).json(updatedUser);
@@ -41,7 +43,7 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.getUserById = async (req, res) => {
-  const userId = req.params.id
+  const userId = req.params.userId
   try {
     const user = await User.findOne({_id: userId});
     if (!user) {
@@ -54,8 +56,10 @@ exports.getUserById = async (req, res) => {
 
 exports.getUserByEmail = async (req, res) => {
     try {
-        const userId = req.query.emil
+        const userEmail = req.query.email
+        console.log(userEmail)
         const user = await User.findOne({email: userEmail});
+        console.log(user)
         if (!user) {
           res.status(404).json({ error: 'User not found.' });
         }
