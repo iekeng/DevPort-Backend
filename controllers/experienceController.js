@@ -2,16 +2,16 @@ const Experience = require('../models/Experience')
 
 exports.createExperience = async (req, res) => {
     try {
-        const userId = req.params.userId;
+        const {userId} = req.params;
         const experienceArray = req.body;
         for (const experience of experienceArray){
             const newExperience = new Experience(experience);
-            experience.user = userId;
+            newExperience.user = userId;
 
-            await experience.save();
+            await newExperience.save();
         }
         
-        res.status(201).json(experience);
+        res.status(201).json({ message: 'Work experiences created successfully' });
 
     } catch {
         res.status(500).json({error: 'An error occured while creating the work experience record'})
@@ -43,16 +43,12 @@ exports.getAllExperience = async(req, res) => {
 exports.updateExperience = async(req, res) => {
     const {userId, experienceId} = req.params;
     const {organisation, position, startDate, endDate, achievements, responsibilities} = req.body;
-
-    // const experiences = await Experience.find({user: userId}).exec();
-    
-    // if (!experiences || experiences.length === 0) {
-    //     return res.status(404).json({ message: 'User experiences not found' });
-    //     }
     const experience = {};
-    const experienceToUpdate = await Experience.findById(experienceId).exec();
+    
 
     try {
+            const experienceToUpdate = await Experience.findById(experienceId).exec();
+
             experience.organisation = organisation || experienceToUpdate.organisation;
             experience.position = position || experienceToUpdate.position;
             experience.startDate = startDate || experienceToUpdate.startDate;

@@ -3,19 +3,32 @@ const Education = require('../models/Education');
 exports.createEducation = async (req, res) => {
     try {
         const userId = req.params.userId;
-        const educationData = req.body;
-        const education = new Education(educationData);
+        const educationArray = req.body;
+        
+        for (const education of educationArray){
+            const newEducation = new Education(education);
+            newEducation.user = userId;
 
-        education.user = userId;
-
-        await education.save();
-
-        res.status(201).json(education);
+            await newEducation.save();
+        }
+        res.status(201).json({ message: 'Education records created successfully' });
 
     } catch {
         res.status(500).json({error: 'An error occured while creating the education record'})
     }
 };
+
+exports.deleteEducation = async (req, res) => {
+    try {
+        const educationId = req.params.educationId;
+        await Education.findByIdAndDelete(educationId);
+    
+        res.status(200).json({ message: 'Education record deleted successfully' });
+      } catch (error) {
+        console.error('Error deleting education record:', error);
+        res.status(500).json({ error: 'An error occurred while deleting the education record' });
+      }
+}
 
 exports.updateEducation = async (req, res) => {
     const {userId, educationId} = req.params;
