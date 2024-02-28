@@ -72,8 +72,6 @@ exports.getAllEducation = async(req, res) => {
 
         const education = await Education.find({user: userId}).exec();
 
-        res.json(education)
-
         res.status(200).json({education});
     } catch {
         res.status(500).json({error: 'An error occured while retriving list of education'})
