@@ -1,16 +1,12 @@
 const Education = require('../models/Education');
 
 exports.createEducation = async (req, res) => {
+    const userId = req.params.userId;
+    const education = req.body;
     try {
-        const userId = req.params.userId;
-        const educationArray = req.body;
-        
-        for (const education of educationArray){
-            const newEducation = new Education(education);
-            newEducation.user = userId;
-
-            await newEducation.save();
-        }
+        const newEducation = new Education(education);
+        newEducation.user = userId;
+        await newEducation.save();
         res.status(201).json({ message: 'Education records created successfully' });
 
     } catch {
@@ -31,29 +27,32 @@ exports.deleteEducation = async (req, res) => {
 }
 
 exports.updateEducation = async (req, res) => {
-    const {userId, educationId} = req.params;
-    const {institution, startDate, endDate, degree, location, course} = req.body;
-    const education = {}
+    const { userId, educationId } = req.params;
+    const { institution, startDate, endDate, degree, location, course } = req.body;
+    const education = {};
 
     try {
-        educationToUpdate = await Education.findById(educationId);
+        const educationToUpdate = await Education.findById(educationId);
 
-        if (educationToUpdate.user === userId) {
-            education.institution = institution || educationToUpdate.institution;
-            education.startDate = startDate || educationToUpdate.startDate;
-            education.endDate = endDate || educationToUpdate.endDate
-            education.degree = degree || educationToUpdate.degree;
-            education.location = location || educationToUpdate.location;
-            education.course = course || educationToUpdate.course;
-        }
+        education.institution = institution || educationToUpdate.institution;
+        education.startDate = startDate || educationToUpdate.startDate;
+        education.endDate = endDate || educationToUpdate.endDate;
+        education.degree = degree || educationToUpdate.degree;
+        education.location = location || educationToUpdate.location;
+        education.course = course || educationToUpdate.course;
+        education._id = educationToUpdate._id.toString(); // Fix typo here
+        education.__v = educationToUpdate.__v;
+        education.user = educationToUpdate.user;
 
-        const updatedEducation = Experience.findByIdAndUpdate(educationId, education, {new: true})
+        const updatedEducation = await Education.findByIdAndUpdate(educationId, education, { new: true });
         res.status(200).json(updatedEducation);
 
-    } catch {
-        res.status(500).json({error: 'An error occured while creating the education record'})
+    } catch (error) {
+        console.error('Error updating education record:', error);
+        res.status(500).json({ error: 'An error occurred while updating the education record' });
     }
 };
+
 
 exports.getEducationById = async(req, res) => {
     try {
@@ -69,7 +68,6 @@ exports.getEducationById = async(req, res) => {
 exports.getAllEducation = async(req, res) => {
     try{
         const userId = req.params.userId;
-
         const education = await Education.find({user: userId}).exec();
 
         res.status(200).json({education});

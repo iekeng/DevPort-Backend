@@ -1,18 +1,13 @@
 const Experience = require('../models/Experience')
 
 exports.createExperience = async (req, res) => {
+    const {userId} = req.params;
+    const experience = req.body;
     try {
-        const {userId} = req.params;
-        const experienceArray = req.body;
-        for (const experience of experienceArray){
-            const newExperience = new Experience(experience);
-            newExperience.user = userId;
-
-            await newExperience.save();
-        }
-        
+        const newExperience = new Experience(experience);
+        newExperience.user = userId;
+        await newExperience.save();
         res.status(201).json({ message: 'Work experiences created successfully' });
-
     } catch {
         res.status(500).json({error: 'An error occured while creating the work experience record'})
     }

@@ -13,6 +13,7 @@ const skillRoutes = require('./routes/skill');
 const jwt = require('jsonwebtoken');  
 require('dotenv').config();
 const app = express();
+const User = require('./models/User');
 
 
 const host = process.env.HOST || 'localhost';
@@ -31,7 +32,7 @@ mongoose.connect('mongodb://localhost/devport', {
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-app.use('/users', userRoutes);
+app.use('/user', userRoutes);
 app.use('/education', educationRoutes);
 app.use('/experience', experienceRoutes);
 app.use('/project', projectRoutes);
@@ -68,6 +69,19 @@ app.get("/oauth", (req, res) => {
   const authURL = `${githubAuthURL}?client_id=${clientID}&state=${state}`;
   res.redirect(authURL);
 })
+
+// app.get("/test", (req, res) => {
+//   const {email} = req.query;
+//   console.log(email);
+//   try {
+//     let user = await User.findOne({email: email});
+//     console.log(user);
+//     res.status(200);
+//   } catch {
+
+//   }
+  
+// })
 
 app.get('/generate-cv/:userId', async(req, res) => {
   try{

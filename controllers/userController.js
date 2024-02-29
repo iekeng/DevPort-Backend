@@ -55,18 +55,20 @@ exports.getUserById = async (req, res) => {
 };
 
 exports.getUserByEmail = async (req, res) => {
-    try {
-        const userEmail = req.query.email
-        console.log(userEmail)
-        const user = await User.findOne({email: userEmail});
-        console.log(user)
-        if (!user) {
-          res.status(404).json({ error: 'User not found.' });
-        }
+  try {
+      const { email } = req.query;
+      const decodedMail = decodeURIComponent(email);
+      
+      const user = await User.findOne({ email: decodedMail })
+
+      if (user) {
         res.status(200).json(user);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
+      } else {
+        res.status(404).json({ error: 'User not found.' });
+      }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 exports.getAllUsers = async (req, res) => {
