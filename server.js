@@ -74,34 +74,6 @@ app.get("/oauth", (req, res) => {
 })
 
 app.get('/generate-cv/:userId', async (req, res) => {
-  // try {
-  //   // Generate the PDF
-  //   const pdfBuffer = await pdfGen.generatePDF();
-
-  //   // Set the response headers
-  //   res.setHeader('Content-Type', 'application/pdf');
-  //   res.setHeader('Content-Disposition', 'attachment; filename="user-cv.pdf"');
-
-  //   // Convert the PDF buffer to a stream and pipe it to the response
-  //   const pdfStream = new Readable();
-  //   pdfStream.push(pdfBuffer);
-  //   pdfStream.push(null); // Signal the end of the stream
-
-  //   pdfStream.pipe(res);
-
-  //   // Optionally, you can also handle events like 'close' or 'finish' if needed
-  //   pdfStream.on('close', () => {
-  //     console.log('PDF stream closed.');
-  //   });
-
-  //   pdfStream.on('finish', () => {
-  //     console.log('PDF stream finished.');
-  //   });
-
-  // } catch (err) {
-  //   console.error(err);
-  //   res.status(500).send('CV generation failed');
-  // }
   const {userId} = req.params;
   const stream =  res.writeHead(200, {
     'Content-Type': 'application/pdf',
