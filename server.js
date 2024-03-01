@@ -2,7 +2,6 @@ const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const cors = require('cors')
-const axios = require('axios')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/user');
@@ -11,9 +10,12 @@ const experienceRoutes = require('./routes/experience');
 const projectRoutes = require('./routes/project');
 const skillRoutes = require('./routes/skill');
 const jwt = require('jsonwebtoken');  
+const pdfGen = require('./pdf-generator');
+const { Readable } = require('stream');
 require('dotenv').config();
 const app = express();
 const User = require('./models/User');
+const axios = require('axios');
 
 
 const host = process.env.HOST || 'localhost';
@@ -23,8 +25,9 @@ const clientID = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const oauth = process.env.OAUTH;
 const jwtSecret = process.env.JWT_SECRET;
+const dbURI = process.env.MONGODB_URI;
 
-mongoose.connect('mongodb://localhost/devport', {
+mongoose.connect(dbURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -70,34 +73,46 @@ app.get("/oauth", (req, res) => {
   res.redirect(authURL);
 })
 
-// app.get("/test", (req, res) => {
-//   const {email} = req.query;
-//   console.log(email);
-//   try {
-//     let user = await User.findOne({email: email});
-//     console.log(user);
-//     res.status(200);
-//   } catch {
+app.get('/generate-cv/:userId', async (req, res) => {
+  // try {
+  //   // Generate the PDF
+  //   const pdfBuffer = await pdfGen.generatePDF();
 
-//   }
-  
-// })
+  //   // Set the response headers
+  //   res.setHeader('Content-Type', 'application/pdf');
+  //   res.setHeader('Content-Disposition', 'attachment; filename="user-cv.pdf"');
 
-app.get('/generate-cv/:userId', async(req, res) => {
-  try{
-    const userId = req.params.userId;
-    const pdfBuffer = await generatePDF(userId);
+  //   // Convert the PDF buffer to a stream and pipe it to the response
+  //   const pdfStream = new Readable();
+  //   pdfStream.push(pdfBuffer);
+  //   pdfStream.push(null); // Signal the end of the stream
 
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename="user-cv.pdf"');
-    
-    res.send(pdfBuffer);
+  //   pdfStream.pipe(res);
 
-  } catch(err) {
-    console.log(err);
-    res.status(500).send('CV generation failed')
-  }
-})
+  //   // Optionally, you can also handle events like 'close' or 'finish' if needed
+  //   pdfStream.on('close', () => {
+  //     console.log('PDF stream closed.');
+  //   });
+
+  //   pdfStream.on('finish', () => {
+  //     console.log('PDF stream finished.');
+  //   });
+
+  // } catch (err) {
+  //   console.error(err);
+  //   res.status(500).send('CV generation failed');
+  // }
+  const {userId} = req.params;
+  const stream =  res.writeHead(200, {
+    'Content-Type': 'application/pdf',
+    'Content-Disposition': 'attachment; filename="user-cv.pdf"',
+  });
+  pdfGen.buildPDF(
+    (chunk) => stream.write(chunk),
+    () => stream.end(),
+    userId
+  )
+});
 
 app.listen(port, host, () => {
   console.log(`The server is running on ${host}:${port}`)

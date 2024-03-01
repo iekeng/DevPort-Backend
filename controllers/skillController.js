@@ -2,7 +2,7 @@ const Skill = require('../models/Skill')
 
 exports.createSkill = async (req, res) => {
     try {
-        const userId = req.params.userId;
+        const {userId} = req.params;
         const skillData = req.body;
         const skill = new Skill(skillData);
         skill.user = userId;
@@ -17,17 +17,21 @@ exports.createSkill = async (req, res) => {
 };
 
 exports.updateSkill = async (req, res) => {
-    const userId = req.params.userId;
-    const {key, array} = req.body; // {key: 'technical_skills', array: [c, python, java]}
+    const {userId} = req.params;
+    const {technical_skills, soft_skills} = req.body;
+    const skill = {}
     try {
             const skillToBeUpdated = await Skill.findOne({user: userId}).exec();
-            // if (!skillToBeUpdated){
-            //     res.status(404).json({error: 'Skills not found'})
-            // }
-            skillToBeUpdated[key] = array
-            await skillToBeUpdated.save();
-            res.status(201).json(skill);
-    } catch {
+            
+            skill.technical_skills = technical_skills || skillToBeUpdated.technical_skills;
+            skill.soft_skills = soft_skills || skillToBeUpdated.soft_skills;
+
+            const updatedSkill = await Skill.findOneAndUpdate({ user: userId }, skill, { new: true });
+
+            res.status(200).json(updatedSkill);
+
+    } catch (error) {
+        console.log(error)
         res.status(500).json({error: 'An error occured while creating the work skill record'})
     }
 };

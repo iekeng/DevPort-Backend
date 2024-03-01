@@ -1,0 +1,1 @@
+mongosh "mongodb+srv://cluster0.quaen7i.mongodb.net/" --apiVersion 1 --username devport
