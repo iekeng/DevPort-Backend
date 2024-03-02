@@ -67,7 +67,7 @@ exports.updateExperience = async(req, res) => {
 exports.deleteExperience = async (req, res) => {
     try {
         const experienceId = req.params.experienceId;
-        await Education.findByIdAndDelete(experienceId);
+        await Experience.findByIdAndDelete(experienceId);
     
         res.status(200).json({ message: 'Experience record deleted successfully' });
       } catch (error) {
