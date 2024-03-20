@@ -6,10 +6,10 @@
     "version": "1.1"
   },
   "paths": {
-    "/users": {
+    "/user": {
       "summary": "User endpoint",
       "get": {
-        "description": "Returns all users registered on the db.",
+        "description": "Returns user by querying email.",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -91,7 +91,147 @@
                         "twitter": {
                           "type": "string"
                         },
+                        "linkedin": {
+                          "type": "string"
+                        },
+                        "_id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "_id": {
+                      "type": "string"
+                    },
+                    "__v": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/all": {
+      "summary": "User endpoint",
+      "get": {
+        "description": "Returns all users registered on the db.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "socials": {
+                      "type": "object",
+                      "properties": {
+                        "twitter": {
+                          "type": "string"
+                        },
+                        "linkedin": {
+                          "type": "string"
+                        },
+                        "_id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "_id": {
+                      "type": "string"
+                    },
+                    "__v": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unsuccessful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+    },
+    "/user/userId": {
+      "summary": "User endpoint",
+      "get": {
+        "description": "Retrives user by using the _id property",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "socials": {
+                      "type": "object",
+                      "properties": {
+                        "twitter": {
+                          "type": "string"
+                        },
                         "linkedIn": {
+                          "type": "string"
+                        },
+                        "github": {
                           "type": "string"
                         }
                       }
@@ -104,8 +244,87 @@
               }
             }
           },
-          "500": {
-            "description": "Server Error",
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unsuccessful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updates user data.",
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "phone": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "summary": {
+                      "type": "string"
+                    },
+                    "socials": {
+                      "type": "object",
+                      "properties": {
+                        "twitter": {
+                          "type": "string"
+                        },
+                        "linkedIn": {
+                          "type": "string"
+                        },
+                        "github": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "phone": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -157,6 +376,9 @@
                     },
                     "user": {
                       "type": "string"
+                    },
+                    "__v": {
+                      "type": "number"
                     }
                   }
                 }
@@ -190,6 +412,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
                     "institution": {
                       "type": "string"
                     },
@@ -209,6 +434,47 @@
                       "type": "string"
                     },
                     "user": {
+                      "type": "string"
+                    },
+                    "__v": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/education/educationId": {
+      "summary": "Deletes education for user",
+      "delete": {
+        "description": "Remove education info linked to a specific user identifying the user by id",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
                       "type": "string"
                     }
                   }
@@ -235,8 +501,9 @@
       }
     },
     "/education/userId/educationId": {
-      "description": "Retreives a user's education information.",
-      "get": {
+      "summary": "User's education information.",
+      "put": {
+        "description": "Updates user education information",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -245,8 +512,91 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "institution": {
+                      "type": "string"
+                    },
+                    "startDate": {
+                      "type": "string"
+                    },
+                    "endDate": {
+                      "type": "string"
+                    },
+                    "degree": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "course": {
+                      "type": "string"
+                    },
+                    "_id": {
+                      "type": "string"
+                    },
+                    "__v": {
+                      "type": "number"
+                    },
+                    "user": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
                     "error": {
                       "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Retreives user education information",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "institution": {
+                      "type": "string"
+                    },
+                    "startDate": {
+                      "type": "string"
+                    },
+                    "endDate": {
+                      "type": "string"
+                    },
+                    "degree": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "string"
+                    },
+                    "course": {
+                      "type": "string"
+                    },
+                    "_id": {
+                      "type": "string"
+                    },
+                    "__v": {
+                      "type": "number"
+                    },
+                    "user": {
+                      "type": "number"
                     }
                   }
                 }
@@ -285,20 +635,26 @@
                     "_id": {
                       "type": "string"
                     },
-                    "name": {
+                    "organisation": {
                       "type": "string"
                     },
-                    "repoURL": {
+                    "position": {
                       "type": "string"
                     },
-                    "liveURL": {
+                    "startDate": {
                       "type": "string"
                     },
-                    "description": {
+                    "endDate": {
+                      "type": "string"
+                    },
+                    "responsibilities": {
                       "type": "string"
                     },
                     "user": {
                       "type": "string"
+                    },
+                    "__v": {
+                      "type": "number"
                     }
                   }
                 }
@@ -332,20 +688,29 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "name": {
+                    "_id": {
                       "type": "string"
                     },
-                    "repoURL": {
+                    "organisation": {
                       "type": "string"
                     },
-                    "liveURL": {
+                    "position": {
                       "type": "string"
                     },
-                    "description": {
+                    "startDate": {
+                      "type": "string"
+                    },
+                    "endDate": {
+                      "type": "string"
+                    },
+                    "responsibilities": {
                       "type": "string"
                     },
                     "user": {
                       "type": "string"
+                    },
+                    "__v": {
+                      "type": "number"
                     }
                   }
                 }
@@ -370,8 +735,8 @@
         }
       }
     },
-    "/experience/userId/experienceid": {
-      "summary": "Enables client interact with single work experience for a specific user",
+    "/experience/userId/experienceId": {
+      "summary": "Enables client interact with single work experience",
       "get": {
         "description": "Retreives single experience for a specific user",
         "responses": {
@@ -385,6 +750,203 @@
                     "_id": {
                       "type": "string"
                     },
+                    "organisation": {
+                      "type": "string"
+                    },
+                    "position": {
+                      "type": "string"
+                    },
+                    "startDate": {
+                      "type": "string"
+                    },
+                    "endDate": {
+                      "type": "string"
+                    },
+                    "responsibilities": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    },
+                    "__v": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unsuccessful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updates single experience for a specific user",
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "organisation": {
+                      "type": "string"
+                    },
+                    "position": {
+                      "type": "string"
+                    },
+                    "startDate": {
+                      "type": "string"
+                    },
+                    "endDate": {
+                      "type": "string"
+                    },
+                    "responsibilities": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    },
+                    "__v": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unsuccessful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/experience/experienceId": {
+      "summary": "Removes work experience",
+      "delete": {
+        "description": "Retreives single experience for a specific user",
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unsuccessful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/project/userId": {
+      "summary": "Enables client interact user project(s) in the db.",
+      "get": {
+        "description": "Retreive user's project(s) from the db.",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "repoURL": {
+                      "type": "string"
+                    },
+                    "liveURL": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create user's project(s) and post to the db.",
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
                     "name": {
                       "type": "string"
                     },
@@ -406,7 +968,7 @@
             }
           },
           "500": {
-            "description": "Unsuccessful response.",
+            "description": "Server Error",
             "content": {
               "application/json": {
                 "schema": {
