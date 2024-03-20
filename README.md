@@ -58,7 +58,7 @@ To run tests for the DevPort application, use the following command:
 npm run test
 
 # API Documentation
-The documentation is available at http:localhost:4000/docs/
+The documentation is available at http:localhost:4000/docs/ or https://dark-pocket-wasp.cyclic.app/docs/
 
 
 # Troubleshooting
