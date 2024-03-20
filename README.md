@@ -49,35 +49,17 @@ Change to the project directory:
 2. cd project-directory
 Install frontend dependencies:
 
-3. cd frontend
+3. cd backend
 npm install
 Install backend dependencies:
 
-4. cd ../backend
-npm install
-Frontend
-The frontend is built using React, and you can start the development server with the following commands:
-
-# Available Scripts
-In the project directory, you can run:
-
-npm start: Runs the app in development mode. Open http://localhost:3000 to view it in your browser.
-npm test: Launches the test runner in the interactive watch mode.
-npm run build: Builds the app for production.
-Backend
-The backend serves as the API and server for the DevPort application. You can start the backend server with the following commands:
-
-# Available Commands
-npm install: Install project dependencies.
-node server or npm start: Start the backend server.
-npm test: Run tests.
-
 # Testing
 To run tests for the DevPort application, use the following command:
-npm test
+npm run test
 
-# Deployment
-To deploy the DevPort application to a production environment, follow the deployment guidelines specific to your hosting provider.
+# API Documentation
+The documentation is available at http:localhost:4000/docs/
+
 
 # Troubleshooting
 If you encounter issues or need help, please refer to our troubleshooting guide in the TROUBLESHOOTING.md file.
