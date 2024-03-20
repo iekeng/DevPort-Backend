@@ -235,9 +235,6 @@
                           "type": "string"
                         }
                       }
-                    },
-                    "phone": {
-                      "type": "number"
                     }
                   }
                 }
@@ -314,9 +311,6 @@
                           "type": "string"
                         }
                       }
-                    },
-                    "phone": {
-                      "type": "number"
                     }
                   }
                 }
@@ -1249,13 +1243,13 @@
       "summary": "Github OAUTH API",
       "get": {
         "description": "Redirects to the OAUTH URL"
-      },
+      }
     },
     "/generate-cv/:userId": {
       "summary": "Generates user resume",
       "get": {
         "description": "Generates resume based on specific user information provided"
-      },
+      }
     }
   }
 }
